@@ -6,3 +6,5 @@ jspm_packages
 .serverless
 packRat
 .ch
+myConstants.js.deploy
+myConstants.js.dev

@@ -77,5 +77,23 @@ exports.elevenUtilitiesHandler = async(event) => {
         }
     }
 
+    // LC API Proxy 
+    if (event.queryStringParameters.function.includes('lc')) {
+        try {
+            let res;
+            let verb = event.queryStringParameters.verb;
+            let req = require('./lcRequest')({});
+            if ( !verb || verb === 'GET')
+                res = await req.get(event.queryStringParameters.apiRequest);
+            else
+                return notifier.functionResponse('Only GET implemented for now');
+            return notifier.jsonFunctionResponse(JSON.stringify(res, null, '\t'));
+        } catch (err) {
+            return notifier.functionResponse('Got error before we could finish:<br>' + err);
+        }
+    }
+
+ 
+
     return notifier.availableFunctions();
 };
