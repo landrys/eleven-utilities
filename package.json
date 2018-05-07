@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.17.10",
-    "mysql2": "^1.5.3"
+    "mysql2": "^1.5.3",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
     "serverless-offline": "^3.20.3"
