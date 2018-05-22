@@ -16,6 +16,9 @@
 - Identiy Pool
 - Lambda
   - VPC set up ( see notes in project tab )
+- CloudFront
+  - Set up static website in an S3 bucket
+  - Used aws api to sync GUI-Angular front end.
 ## Notes
 ###### Development
   - Change endpoint in environments.ts
