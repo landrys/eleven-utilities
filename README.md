@@ -16,3 +16,10 @@
 - Identiy Pool
 - Lambda
   - VPC set up ( see notes in project tab )
+## Notes
+###### Development
+  - Change endpoint in environments.ts
+  - Change USER and HOST in myConstants for serverless to work offline 
+  - constants under front end are for the simple javascript console front end
+###### Got Ya's
+  - Make sure the VPC is set up correctly in lambda function. This could get overwritten when deploying via serverless. I did not figure out how to set this up via serverless. I did it via AWS console on browser.
