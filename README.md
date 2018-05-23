@@ -20,6 +20,10 @@
   - Set up static website in an S3 bucket
   - Used aws api to sync GUI-Angular front end.
 ## Notes
+###### Deployment 
+  - Need to make sure myConstansts.js, constants.js, environment.ts are consistent with deployment
+  - BackEnd --> sls deploy --aws-profile landrys
+  - FrontEnd GUI --> aws --profile landrys s3 sync ./dist/gui s3://eleven-utilities/ --delete
 ###### Development
   - Change endpoint in environments.ts
   - Change USER and HOST in myConstants for serverless to work offline 
