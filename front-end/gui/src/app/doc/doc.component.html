@@ -1,0 +1,97 @@
+<mat-card style="margin-top: 50px;text-align: left;">
+    <a href="https://docs.google.com/document/d/1pe2WruIzKiZyhi5m96nIBb4yD7wcgwfq489hmrqsvTQ/edit">FacadeGoogleDoc</a>
+</mat-card>
+<mat-card style="margin-top: 50px;text-align: left;">
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Ultegra Release 
+                </mat-panel-title>
+                <mat-panel-description>
+                    Checklist
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-selection-list>
+                <mat-list-option >Change version in eleven-web/pom for the swing client</mat-list-option>
+                <mat-list-option >Change the description in top level pom</mat-list-option>
+                <mat-list-option >Add "name" in ElevenGui.java</mat-list-option>
+                <mat-list-option >Update the config table containing the name above</mat-list-option>
+                <mat-list-option >Copy catalina.out and truncate current</mat-list-option>
+                <mat-list-option >Update the JNLP template in swing client ( version stuff ). Need some kind of procedure to do this.... Test via local area first...</mat-list-option>
+                <!--
+                <mat-list-option style="margin-left:30px;">
+                        Dynamo 
+                </mat-list-option>
+                <mat-list-option style="margin-left:30px;">
+                        Lambda 
+                </mat-list-option>
+                -->
+            </mat-selection-list>
+            <mat-card style="margin-top: 50px;text-align: left;">
+                <h3>Notes</h3>
+                <p>If not changing anything on the swing client, Just do your changes on STS and release to BigMac first. Then copy the WAR to 11nator. No need for versioning. Remember that you need manage-script role in the DB role? table.Otherwise it will fail when deploying from DEV ( Mac ).</p>
+            </mat-card>
+            <mat-card>
+                <h3> Latest remoting on 11nator (as of 05-23-2016)</h3>
+                <p>
+                <li>
+                &lt;task:scheduled-tasks scheduler="taskScheduler">
+                </li>
+                <li>
+                &lt;task:scheduled ref="memoryService" method="monitor" cron="0 3 15 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="dailyNotifierFacade" method="notifyHPAssignees" cron="0 45 7 ? * TUE" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="punchMgr" method="autoPunchOut" cron="0 15 2 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="punchMgr" method="notifyPunchProblemsToMangers" cron="0 30 5 ? * SUN" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="salePriceSpreadsheet" method="upload" cron="0 3 7-22 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="generalService" method="checkForAdminChanges" cron="0 4 7-22 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="generalService" method="checkForLocationTreeChanges" cron="0 6 7-22 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="generalService" method="checkForDepartmentTreeChanges" cron="0 8 7-22 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="syncService" method="syncStockingData" cron="0 10 1 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="syncService" method="syncAllOvernight" cron="0 55 1 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="syncService" method="manageAugSoTrs" cron="0 5/10 7-22 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="syncService" method="syncAll" cron="0 0/10 7-22 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="augSaleLineService" method="syncSaleLines" cron="0 9/10 7-22 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="triHpMgr" method="manage" cron="0 7/10 7-22 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="hotPotService" method="checkDormantHps" cron="0 5/30 7-22 * * ?" />
+                </li>
+                <li>
+                &lt;task:scheduled ref="augmentedSerializedService" method="checkSerialProblemLists" cron="0 55 4 * * ?"/>
+                </li>
+                <li>
+                        &lt;/task:scheduled-tasks>
+                </li>
+
+                </p>
+            </mat-card>
+        </mat-expansion-panel>
+    </mat-accordion>
+</mat-card>

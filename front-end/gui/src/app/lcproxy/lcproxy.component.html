@@ -1,0 +1,20 @@
+<mat-card style="margin-top: 50px;">
+    <form class="example-container" 
+          [formGroup]="form"
+          (ngSubmit)="submit(form.value)">
+
+        <mat-form-field>
+            <mat-label>LC Api Call to make</mat-label>
+            <input matInput placeholder="(example)Employee?employeeID=43" required formControlName="apiCall">
+        </mat-form-field>
+        <div>
+            <button mat-fab type="submit">Go</button>
+        </div>
+    </form>
+</mat-card>
+<mat-card>
+    <div align="left">
+        <pre>{{result}}</pre>
+    </div>
+</mat-card>
+

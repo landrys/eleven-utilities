@@ -1,0 +1,9 @@
+<mat-card style="margin-top: 50px;">
+
+<div>
+    <p> Authenticator may be confused. If either Sign Out button is active you are logged in!</p>
+     <button mat-button [disabled]="!loggedIn" (click)="signOut()" >Sign Out</button>
+</div>
+
+<amplify-authenticator></amplify-authenticator>
+</mat-card>

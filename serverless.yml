@@ -48,13 +48,10 @@ plugins:
 #    variable1: value1
 
 # you can add packaging information here
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
+package:
+  include:
+  exclude:
+    - front-end/**
 
 functions:
   elevenUtilities:
@@ -63,7 +60,10 @@ functions:
      - http:
          path: utility 
          method: get 
-#         cors: true
+         authorizer: aws_iam
+#           arn: arn:aws:cognito-idp:us-east-1:419745589400:userpool/us-east-1_oufrGoLMp
+           #arn: arn:aws:cognito-identity:us-east-1:419745589400:identitypool/us-east-1:2a009c19-0018-48ed-9480-df235c44da86
+         cors: true
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

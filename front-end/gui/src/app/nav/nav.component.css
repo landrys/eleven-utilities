@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+.flex-spacer {
+      flex-grow: 1;
+}
+
+mat-toolbar {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 999;
+}
+
+@media (max-width: 720px) {
+    .hide-small {
+        display: none;
+    }
+}
+

@@ -16,6 +16,8 @@ module.exports  = (spec) => {
                 statusCode: 200,
                 headers: {
                     'Content-Type': 'text/html',
+                    "Access-Control-Allow-Origin" : "*", 
+                    "Access-Control-Allow-Credentials" : true
                 },
                 body: '<h3>Available functions via query parameter ?function=[function&arg1...]</h3> <ul>' + func1 + func2 + func3 + '</ul>',
 
@@ -28,6 +30,8 @@ module.exports  = (spec) => {
                 statusCode: 200,
                 headers: {
                     'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin" : "*", 
+                    "Access-Control-Allow-Credentials" : true
                 },
                 body: info 
             };
@@ -40,6 +44,8 @@ module.exports  = (spec) => {
                 statusCode: 200,
                 headers: {
                     'Content-Type': 'text/html',
+                    "Access-Control-Allow-Origin" : "*", 
+                    "Access-Control-Allow-Credentials" : true
                 },
                 body: '<h3>' + info + '</h3>',
             };
