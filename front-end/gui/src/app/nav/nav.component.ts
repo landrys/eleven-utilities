@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AmplifyService }  from 'aws-amplify-angular';
+import { Auth } from 'aws-amplify';
 
 @Component({
   selector: 'app-nav',
@@ -8,13 +10,46 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  private docButton : boolean;
+  private lcProxyButton : boolean;
+  private utilsButton : boolean;
+
+  constructor(public amplifyService: AmplifyService, private router: Router) { 
+        this.amplifyService.authStateChange$
+        .subscribe(authState => {
+            if ( authState.state === 'signedIn')  {
+                this.isInDocButtonGroup();
+                this.lcProxyButton = true;
+                this.utilsButton = true;
+            } else {
+                this.docButton = false;
+                this.lcProxyButton = false;
+                this.utilsButton = false;
+            }
+        });
+  }
 
   ngOnInit() {
+      this.docButton = false;
+      this.lcProxyButton = false;
+      this.utilsButton = false;
   } 
 
   btnClick= function (place: string) {
       this.router.navigateByUrl('/' + place);
   };
+
+  isInDocButtonGroup(): void {
+      Auth.currentAuthenticatedUser()
+      .then(user => {
+          if ( user.signInUserSession.idToken.payload["cognito:groups"] )
+              user.signInUserSession.idToken.payload["cognito:groups"].forEach( (bean)=>{ 
+                  if ( bean === 'docButton' )
+                      this.docButton = true; 
+              };
+      })
+      .then(data => {this.data = JSON.stringify(data);})
+      .catch(err => {this.error = JSON.stringify(err);});
+  }
 
 }

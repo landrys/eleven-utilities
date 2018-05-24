@@ -10,6 +10,9 @@ import { Auth } from 'aws-amplify';
 export class LoginComponent implements OnInit {
 
      private loggedIn;
+     private user;
+     private data;
+     private error;
 
     /*
      private signedIn;
@@ -32,8 +35,18 @@ export class LoginComponent implements OnInit {
   signOut() {
       console.log("Signing out...");
       Auth.signOut()
-      .then(data => {console.log(data); this.loggedIn = false;})
+      .then(data => {if (data) console.log(data); this.loggedIn = false;})
       .catch(err => console.log(err));
+  }
+
+  whatDoWeGot() {
+    Auth.currentAuthenticatedUser()
+    //Auth.currentCredentials()
+        .then(user => {
+            this.user = JSON.stringify(user, null, 2);
+        })
+        .then(data => {this.data = JSON.stringify(data);})
+        .catch(err => {this.error = JSON.stringify(err);});
   }
 
 /*

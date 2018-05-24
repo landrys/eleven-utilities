@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { map, tap, catchError } from 'rxjs/operators';
 import { AmplifyService }  from 'aws-amplify-angular';
+import { Auth } from 'aws-amplify';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -27,13 +28,29 @@ export class AuthGuard implements CanActivate {
 
     }
 
-    canActivate( next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    async canActivate( next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+
+        console.log( 'Next is: ' + next.url + '\n' + state.url;)
 
         if (!this.signedIn) {
             this.router.navigate(['/login']);
         }
 
-        return this.signedIn;
+        if ( next.url == 'doc' ) {
+            let user = await Auth.currentAuthenticatedUser();
+            let allow = false
+            if ( user.signInUserSession.idToken.payload["cognito:groups"] )
+                user.signInUserSession.idToken.payload["cognito:groups"].forEach( (bean)=>{ 
+                    if ( bean === 'docButton' ) {
+                        console.log('Returning true!!');
+                        allow = true; 
+                    }
+                }
+            return allow;
+        } else {
+            return this.signedIn;
+        }
 
     }
+
 }
