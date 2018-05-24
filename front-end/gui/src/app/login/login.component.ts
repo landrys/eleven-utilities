@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit {
         .then(user => {
             this.loggedIn = true;
         })
-        .then(data => { if(data) console.log(data))
-        .catch(err => console.log(err); this.loggedIn = false; );
+        .then(data => { if(data) console.log(data);})
+        .catch(err => {console.log(err); this.loggedIn = false;} );
 
   }
 
