@@ -11,8 +11,8 @@ export class LoginComponent implements OnInit {
 
      private loggedIn;
      private user;
-     private data;
-     private error;
+     private data1;
+     private error1;
 
     /*
      private signedIn;
@@ -20,15 +20,15 @@ export class LoginComponent implements OnInit {
     */
 
 
-    constructor( ){
+    constructor(){
       }
   ngOnInit() {
       Auth.currentAuthenticatedUser()
         .then(user => {
             this.loggedIn = true;
         })
-        .then(data => console.log(data))
-        .catch(err => console.log(err));
+        .then(data => { if(data) console.log(data))
+        .catch(err => console.log(err); this.loggedIn = false; );
 
   }
 
@@ -45,8 +45,8 @@ export class LoginComponent implements OnInit {
         .then(user => {
             this.user = JSON.stringify(user, null, 2);
         })
-        .then(data => {this.data = JSON.stringify(data);})
-        .catch(err => {this.error = JSON.stringify(err);});
+        .then(data => {this.data1 = JSON.stringify(data);})
+        .catch(err => {this.error1 = JSON.stringify(err);});
   }
 
 /*

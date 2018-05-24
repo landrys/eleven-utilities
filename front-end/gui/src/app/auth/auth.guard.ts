@@ -30,13 +30,13 @@ export class AuthGuard implements CanActivate {
 
     async canActivate( next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
 
-        console.log( 'Next is: ' + next.url + '\n' + state.url;)
 
         if (!this.signedIn) {
             this.router.navigate(['/login']);
+            return false;
         }
 
-        if ( next.url == 'doc' ) {
+        if ( next.url.toLocaleString() === 'doc' ) {
             let user = await Auth.currentAuthenticatedUser();
             let allow = false
             if ( user.signInUserSession.idToken.payload["cognito:groups"] )
@@ -45,7 +45,7 @@ export class AuthGuard implements CanActivate {
                         console.log('Returning true!!');
                         allow = true; 
                     }
-                }
+                });
             return allow;
         } else {
             return this.signedIn;

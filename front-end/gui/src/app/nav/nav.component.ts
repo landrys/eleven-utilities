@@ -46,10 +46,10 @@ export class NavComponent implements OnInit {
               user.signInUserSession.idToken.payload["cognito:groups"].forEach( (bean)=>{ 
                   if ( bean === 'docButton' )
                       this.docButton = true; 
-              };
+              });
       })
-      .then(data => {this.data = JSON.stringify(data);})
-      .catch(err => {this.error = JSON.stringify(err);});
+      .then(data => {if(data) console.log(JSON.stringify(data));})
+      .catch(err => {console.log(JSON.stringify(err));});
   }
 
 }
