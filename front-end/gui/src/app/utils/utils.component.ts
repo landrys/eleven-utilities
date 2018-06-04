@@ -31,8 +31,7 @@ export class UtilsComponent implements OnInit {
   }
 
   submit1(value) {
-
-      let apiName = environment.aws.utilsApiName;
+      let apiName = environment.api.utility;
       let path = '';
 
       let myInit = { // OPTIONAL
@@ -46,13 +45,15 @@ export class UtilsComponent implements OnInit {
           this.result = "<h1>Result</h1><br>";;
           this.result += response.data;
       }).catch(error => {
-          console.log(error);
-          this.result = JSON.stringify(error);
+          if ( error.response && error.response.data && error.response.data.message )
+              this.result = error.response.data.message;
+          else
+              this.result = JSON.stringify(error, null, 2);
       });
   }
-  submit2(value) {
 
-      let apiName = environment.aws.utilsApiName;
+  submit2(value) {
+      let apiName = environment.api.utility;
       let path = '';
 
       let myInit = { // OPTIONAL
@@ -70,8 +71,12 @@ export class UtilsComponent implements OnInit {
           this.result = "<h1>Result</h1><br>";;
           this.result += response.data;
       }).catch(error => {
-          console.log(error);
-          this.result = JSON.stringify(error);
+
+          if ( error.response && error.response.data && error.response.data.message )
+              this.result = error.response.data.message;
+          else
+              this.result = JSON.stringify(error, null, 2);
+
       });
   }
 

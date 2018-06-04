@@ -7,6 +7,7 @@ module.exports = (spec) => {
     let tokenRefresher = require('./tokenRefresher')();
     let MyConstants = require('./myConstants.js');
     let bucketLevel = 0; // lets start off assuming it is empty!
+    let querystring = require("querystring");
 
     let _include_headers = function(body, response, resolveWithFullResponse) {
           return {'headers': response.headers, 'data': body};
@@ -27,15 +28,19 @@ module.exports = (spec) => {
     return {
 
         async get(apiRequest) {
+            //let result = encodeURIComponent(apiRequest);
+            //console.log(result);
             options.method = 'GET';
             options.uri = MyConstants.LC_API_URL + apiRequest;
+           // options.uri = MyConstants.LC_API_URL + result;
             return doRequest(apiRequest);
+            //return doRequest(result);
         },
 
         async put(apiRequest, data) {
             options.method = 'PUT';
             options.uri = MyConstants.LC_API_URL + apiRequest;
-            options.form = data;
+            options.form = JSON.stringify(data);
             return doRequest(apiRequest);
         }
 

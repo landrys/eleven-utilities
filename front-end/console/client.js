@@ -22,7 +22,10 @@ module.exports = (spec) => {
             if (apiRequest === undefined)
                 apiRequest = 'Employee.json?employeeID=43';
 
-            let URL = consts.AWS_API_GATEWAY_URL + '?function=lc&verb=GET&apiRequest=' + apiRequest;
+            console.log(apiRequest);
+
+            //let URL = consts.AWS_API_GATEWAY_URL + '?function=lc&verb=GET&apiRequest=' + apiRequest;
+            let URL = consts.AWS_API_GATEWAY_URL + '?lcQuery=' + apiRequest;
 
             let options = {
                 method: "GET",
@@ -35,10 +38,10 @@ module.exports = (spec) => {
 
             fetch(URL, options).then(function(response) {
 
-                console.log(response.headers);
+                //console.log(response.headers);
 
                 response.json().then((data) => {
-                    console.log(JSON.stringify(data));
+                    console.log(JSON.stringify(data.data));
                 });
 
             }, function(error) {

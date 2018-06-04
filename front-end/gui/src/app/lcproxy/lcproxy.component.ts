@@ -3,6 +3,7 @@ import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 import { AmplifyService }  from 'aws-amplify-angular';
 import { environment } from './../../environments/environment';
 import { Auth } from 'aws-amplify';
+import { MyAuthService } from '../auth/myauth.service';
 
 @Component({
   selector: 'app-lcproxy',
@@ -11,25 +12,36 @@ import { Auth } from 'aws-amplify';
 })
 export class LcproxyComponent implements OnInit {
 
-  form: FormGroup;
+  formGet: FormGroup;
+  formPut: FormGroup;
   result: string;
+  putTab: boolean;
 
-  constructor(public amplifyService: AmplifyService, private fb: FormBuilder){}
+  constructor(public myAuthService: MyAuthService, public amplifyService: AmplifyService, private fb: FormBuilder){
+  }
 
   ngOnInit() {
-      this.form = this.fb.group({
-          apiCall: this.fb.control('') // Here you can do things like validating input ( See cost comp. in Bigoooo)
+      
+      this.myAuthService.getPutTab().subscribe((passedPutTab) => {console.log('HEREHERE' + passedPutTab) ; this.putTab = passedPutTab;});
+
+      this.formGet = this.fb.group({
+          getApiCall: this.fb.control('') // Here you can do things like validating input ( See cost comp. in Bigoooo)
+      });
+
+      this.formPut = this.fb.group({
+          putApiCall: this.fb.control(''),
+          putPayload: this.fb.control('') // Here you can do things like validating input ( See cost comp. in Bigoooo)
       });
 
       this.result='Put in your query and press Go to see your result.';
   }
 
-  submit(value) {
+  submitGet(value) {
 
-      let apiName = environment.aws.lcproxyApiName;
+      let apiName = environment.api.lcproxy;
       let path = environment.lc.getPart;
 
-      path += JSON.stringify(value.apiCall);
+      path += JSON.stringify(value.getApiCall);
       path =  path.replace(/['"]+/g, '');
       //path = '';
 
@@ -40,14 +52,70 @@ export class LcproxyComponent implements OnInit {
       }
 
 
-      //let session = Auth.currentSession();
-      //myInit.headers.Authorization = session.idToken;
-
       this.amplifyService.api().get(apiName, path, myInit).then(response => {
           this.result = JSON.stringify(response.data, null, 2);
       }).catch(error => {
-          this.result = JSON.stringify(error);
+          if ( error.response && error.response.data && error.response.data.message )
+              this.result = error.response.data.message;
+          else
+              this.result = JSON.stringify(error, null, 2);
       });
+
+
+
   }
+
+  submitPut(value) {
+
+      let apiName = environment.api.lcproxy;
+
+      let path = JSON.stringify(value.putApiCall);
+      path = "/" + path + "/";
+     
+      path =  path.replace(/['"]+/g, '');
+
+      let cleanMe = value.putPayload.trim();
+      let myList = cleanMe.split(';');;
+
+      myList.forEach( (data)=> {
+          console.log(data);
+
+          path = path + data.id;
+
+          let myInit = { // OPTIONAL
+              body: JSON.parse(data), 
+              response: true, // OPTIONAL (return entire response object instead of response.data)
+          }
+
+          this.amplifyService.api().put(apiName, path, myInit).then(response => {
+              this.result = JSON.stringify(response.data, null, 2);
+          }).catch(error => {
+              if ( error.response && error.response.data && error.response.data.message )
+                  this.result = error.response.data.message;
+              else
+                  this.result = JSON.stringify(error, null, 2);
+          });
+
+      });
+      /*
+      let myInit = { // OPTIONAL
+          body: JSON.parse(value.putPayload), 
+          headers: {}, // OPTIONAL
+          response: true, // OPTIONAL (return entire response object instead of response.data)
+          queryStringParameters: {} // OPTIONAL
+      }
+
+      this.amplifyService.api().put(apiName, path, myInit).then(response => {
+          this.result = JSON.stringify(response.data, null, 2);
+      }).catch(error => {
+          if ( error.response && error.response.data && error.response.data.message )
+              this.result = error.response.data.message;
+          else
+              this.result = JSON.stringify(error, null, 2);
+      });
+     */
+  }
+
+
 
 }

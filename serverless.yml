@@ -61,9 +61,25 @@ functions:
          path: utility 
          method: get 
          authorizer: aws_iam
+         cors: true
+  lcProxyGet:
+    handler: lcProxyGet.handler
+    events:
+     - http:
+         path: lcproxy 
+         method: get 
+         authorizer: aws_iam
+         cors: true
+  lcProxyPut:
+    handler: lcProxyPut.handler
+    events:
+     - http:
+         path: lcproxy/{table} 
+         method: put 
+         authorizer: aws_iam
+         cors: true
 #           arn: arn:aws:cognito-idp:us-east-1:419745589400:userpool/us-east-1_oufrGoLMp
            #arn: arn:aws:cognito-identity:us-east-1:419745589400:identitypool/us-east-1:2a009c19-0018-48ed-9480-df235c44da86
-         cors: true
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

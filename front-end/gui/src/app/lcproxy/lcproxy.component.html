@@ -1,16 +1,41 @@
 <mat-card style="margin-top: 50px;">
-    <form class="example-container" 
-          [formGroup]="form"
-          (ngSubmit)="submit(form.value)">
+    <mat-tab-group>
+        <mat-tab label="GET">
+            <form class="example-container" 
+                  [formGroup]="formGet"
+                  (ngSubmit)="submitGet(formGet.value)">
 
-        <mat-form-field>
-            <mat-label>LC Api Call to make</mat-label>
-            <input matInput placeholder="(example)Employee?employeeID=43" required formControlName="apiCall">
-        </mat-form-field>
-        <div>
-            <button mat-fab type="submit">Go</button>
-        </div>
-    </form>
+                <mat-form-field>
+                    <mat-label>LC Api Call to make</mat-label>
+                    <input matInput placeholder="Employee?employeeID=43" required formControlName="getApiCall">
+                </mat-form-field>
+                <div>
+                    <button mat-fab type="submit">Go</button>
+                </div>
+            </form>
+        </mat-tab>
+        <mat-tab [disabled]="!putTab" label="PUT">
+            <form class="example-container" 
+                  [formGroup]="formPut"
+                  (ngSubmit)="submitPut(formPut.value)">
+
+                <mat-form-field>
+                    <mat-label>LC Api Call to make</mat-label>
+                    <input matInput placeholder="Employee" required formControlName="putApiCall">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>JSON Payload</mat-label>
+                    <input matInput placeholder='{"id" : 43, "firtsName": "Fabio", ...};{};{}; ...' required formControlName="putPayload">
+                </mat-form-field>
+
+                <div>
+                    <button mat-fab type="submit">Go</button>
+                </div>
+            </form>
+
+        </mat-tab>
+    </mat-tab-group>
 </mat-card>
 <mat-card>
     <div align="left">

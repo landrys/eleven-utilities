@@ -13,10 +13,6 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth/auth.guard';
 import { UtilsComponent } from './utils/utils.component';
 import { DocComponent } from './doc/doc.component';
-//import { AuthService } from './auth/auth.service';
-/*
-import { AmplifyService }  from 'aws-amplify-angular';
-*/
 
 @NgModule({
   declarations: [
@@ -36,7 +32,6 @@ import { AmplifyService }  from 'aws-amplify-angular';
     FormsModule,
     AmplifyAngularModule
   ],
-  //providers: [AuthService,AuthGuard],
   providers: [AuthGuard, AmplifyService],
   bootstrap: [AppComponent]
 })

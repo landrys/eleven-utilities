@@ -6,6 +6,7 @@ exports.elevenUtilitiesHandler = async(event) => {
     let notifier = require('./notifier.js')({});
     let MyConstants = require('./myConstants');
 
+    // This was just for console front end and hack browser front end.
     if (!event.queryStringParameters) {
         return notifier.availableFunctions();
     }
