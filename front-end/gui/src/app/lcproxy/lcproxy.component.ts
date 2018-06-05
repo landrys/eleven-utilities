@@ -4,6 +4,7 @@ import { AmplifyService }  from 'aws-amplify-angular';
 import { environment } from './../../environments/environment';
 import { Auth } from 'aws-amplify';
 import { MyAuthService } from '../auth/myauth.service';
+import * as querystring from 'querystring';
 
 @Component({
   selector: 'app-lcproxy',
@@ -17,12 +18,11 @@ export class LcproxyComponent implements OnInit {
   result: string;
   putTab: boolean;
 
-  constructor(public myAuthService: MyAuthService, public amplifyService: AmplifyService, private fb: FormBuilder){
-  }
+  constructor(public myAuthService: MyAuthService, public amplifyService: AmplifyService, private fb: FormBuilder){}
 
   ngOnInit() {
       
-      this.myAuthService.getPutTab().subscribe((passedPutTab) => {console.log('HEREHERE' + passedPutTab) ; this.putTab = passedPutTab;});
+      this.myAuthService.getPutTab().subscribe((passedPutTab) => {this.putTab = passedPutTab;});
 
       this.formGet = this.fb.group({
           getApiCall: this.fb.control('') // Here you can do things like validating input ( See cost comp. in Bigoooo)
@@ -39,20 +39,17 @@ export class LcproxyComponent implements OnInit {
   submitGet(value) {
 
       let apiName = environment.api.lcproxy;
-      let path = environment.lc.getPart;
-
-      path += JSON.stringify(value.getApiCall);
-      path =  path.replace(/['"]+/g, '');
-      //path = '';
+      let param = {"lcQuery": encodeURIComponent(value.getApiCall)};
 
       let myInit = { // OPTIONAL
           headers: {}, // OPTIONAL
           response: true, // OPTIONAL (return entire response object instead of response.data)
-          queryStringParameters: {} // OPTIONAL
+          queryStringParameters: param 
       }
 
 
-      this.amplifyService.api().get(apiName, path, myInit).then(response => {
+      // No path, passed in as ''
+      this.amplifyService.api().get(apiName, '', myInit).then(response => {
           this.result = JSON.stringify(response.data, null, 2);
       }).catch(error => {
           if ( error.response && error.response.data && error.response.data.message )

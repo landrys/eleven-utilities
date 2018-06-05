@@ -7,7 +7,7 @@ module.exports = (spec) => {
     let tokenRefresher = require('./tokenRefresher')();
     let MyConstants = require('./myConstants.js');
     let bucketLevel = 0; // lets start off assuming it is empty!
-    let querystring = require("querystring");
+    let querystring = require('querystring');
 
     let _include_headers = function(body, response, resolveWithFullResponse) {
           return {'headers': response.headers, 'data': body};
@@ -28,25 +28,24 @@ module.exports = (spec) => {
     return {
 
         async get(apiRequest) {
-            //let result = encodeURIComponent(apiRequest);
-            //console.log(result);
+            let result = decodeURIComponent(apiRequest);
+            let myArray = result.split("?");
             options.method = 'GET';
-            options.uri = MyConstants.LC_API_URL + apiRequest;
-           // options.uri = MyConstants.LC_API_URL + result;
-            return doRequest(apiRequest);
-            //return doRequest(result);
+            options.uri = MyConstants.LC_API_URL + myArray[0];
+            options.qs = querystring.parse(myArray[1]);
+            return doRequest();
         },
 
         async put(apiRequest, data) {
             options.method = 'PUT';
             options.uri = MyConstants.LC_API_URL + apiRequest;
             options.form = JSON.stringify(data);
-            return doRequest(apiRequest);
+            return doRequest();
         }
 
     }
 
-    async function doRequest(apiRequest) {
+    async function doRequest() {
 
         // Rough  limiter....
         console.log('BUCKET LEVEL: ' + bucketLevel);
