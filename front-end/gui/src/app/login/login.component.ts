@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   }
 
   signOut() {
-      console.log("Signing out...");
+      console.log("Signing out oh boy...");
       Auth.signOut()
       .then(data => {if (data) console.log(data); this.loggedIn = false;})
       .catch(err => console.log(err));
