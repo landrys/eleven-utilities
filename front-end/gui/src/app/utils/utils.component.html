@@ -38,6 +38,28 @@
                 </form>
             </mat-card>
         </mat-tab>
+        <mat-tab label="BikeAttributeSyncer">
+            <form class="example-container" 
+                  [formGroup]="form3"
+                  (ngSubmit)="submit3(form3.value)">
+                <mat-card>
+                    <div>
+                        <mat-radio-group formControlName="radioGroup">
+                            <mat-radio-button value="count">Item Count With Null Attributes</mat-radio-button>
+                            <mat-radio-button value="sync">Sync From LC</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </mat-card>
+                <mat-card>
+                    <div>
+                        <!--
+                        <button (click)="submit3()" mat-fab type="submit">Go</button>
+                        -->
+                        <button mat-fab type="submit">Go</button>
+                    </div>
+                </mat-card>
+            </form>
+        </mat-tab>
     </mat-tab-group>
 </mat-card>
 <mat-card>

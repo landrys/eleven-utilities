@@ -78,21 +78,44 @@ exports.elevenUtilitiesHandler = async(event) => {
         }
     }
 
-    // LC API Proxy 
-    if (event.queryStringParameters.function.includes('lc')) {
+    // Bike attribute syncer 
+    if (event.queryStringParameters.function.includes('bikeItemAttributeSyncer')) {
         try {
-            let res;
-            let verb = event.queryStringParameters.verb;
-            let req = require('./lcRequest')({});
-            if ( !verb || verb === 'GET')
-                res = await req.get(event.queryStringParameters.apiRequest);
-            else
-                return notifier.functionResponse('Only GET implemented for now');
-            return notifier.jsonFunctionResponse(JSON.stringify(res, null, '\t'));
+            let bikeAttributeSyncer = require('./bikeAttributeSyncer')({
+                host: MyConstants.HOST,
+                user: MyConstants.USER,
+                password: MyConstants.PASSWORD,
+                db: MyConstants.DB
+            });
+
+            let res = await bikeAttributeSyncer.sync();
+            return notifier.functionResponse(res);
+        } catch (err) {
+            console.log(err);
+            return notifier.functionResponse('Got error before we could finish:<br>' + err);
+        }
+
+    }
+
+    // Bike null attribute count 
+    if (event.queryStringParameters.function.includes('bikeItemNullAttributeCount')) {
+        try {
+            let bikeNullAttributeCount = require('./bikeNullAttributeCount')({
+                host: MyConstants.HOST,
+                user: MyConstants.USER,
+                password: MyConstants.PASSWORD,
+                db: MyConstants.DB
+            });
+
+            let res = await bikeNullAttributeCount.nullCount();
+            return notifier.functionResponse(res);
         } catch (err) {
             return notifier.functionResponse('Got error before we could finish:<br>' + err);
         }
+
     }
+
+ 
 
  
 
