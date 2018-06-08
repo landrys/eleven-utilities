@@ -20,13 +20,15 @@ module.exports = (spec) => {
         user,
         password,
         db,
-        table
+        offset,
+        count 
     } = spec === undefined ? {
         host: MyConstants.HOST,
         user: MyConstants.USER,
         password: MyConstants.PASSWORD,
         db: MyConstants.DB,
-        table: 'location'
+        offset: 0,
+        count: 1 
     } : spec;
 
     let nodes = [];
@@ -51,6 +53,11 @@ module.exports = (spec) => {
 
         async sync() {
 
+            if (!count)
+                count = 1;
+            if (!offset)
+                offset = 0;
+
             const connection = await mysql2.createConnection({
                 host: host,
                 user: user,
@@ -58,7 +65,8 @@ module.exports = (spec) => {
                 database: db
             });
 
-            const [rows, fields] = await connection.execute("select i.id, description from item  i join category c on c.id=i.category where c.left_node between 201 and 330 and (attribute1 or attribute2 is null) and description not like '%Request%' order by i.id desc");
+            const [rows, fields] = await connection.execute("select i.id, description from item  i join category c on c.id=i.category where c.left_node between 201 and 330 and (attribute1 or attribute2 is null) and description not like '%Request%'  and (lc_deleted is null or lc_deleted is false) order by i.id limit 100000000 offset " + offset);
+            
 
             let chunkedArray = _.chunk(rows, 100);
             let info = [];
@@ -73,9 +81,12 @@ module.exports = (spec) => {
                         "crap": "Data is empty. Hmmm.."
                     });
 
-                console.log("Sleeping a second before sending next request...");
-                await sleep(1000);
-
+                if (--count === 0) {
+                    break;
+                } else {
+                    console.log("Sleeping a second before sending next request...");
+                    await sleep(1000);
+                }
             };
 
             let response = 'Successfully called sync bikes with null attributes from LC. Here is 11nator\'s response => ' + JSON.stringify(info, null, '\t');

@@ -85,7 +85,9 @@ exports.elevenUtilitiesHandler = async(event) => {
                 host: MyConstants.HOST,
                 user: MyConstants.USER,
                 password: MyConstants.PASSWORD,
-                db: MyConstants.DB
+                db: MyConstants.DB,
+                offset: event.queryStringParameters.offset,
+                count: event.queryStringParameters.count
             });
 
             let res = await bikeAttributeSyncer.sync();

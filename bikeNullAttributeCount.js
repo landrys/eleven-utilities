@@ -38,7 +38,7 @@ module.exports = (spec) => {
                 database: db
             });
 
-            const [rows, fields] = await connection.execute("select count(*) as bikeNullAttributeCount from item  i join category c on c.id=i.category where c.left_node between 201 and 330 and (attribute1 or attribute2 is null) and description not like '%Request%'");
+            const [rows, fields] = await connection.execute("select count(*) as bikeNullAttributeCount from item  i join category c on c.id=i.category where c.left_node between 201 and 330 and (attribute1 or attribute2 is null) and description not like '%Request%' and (lc_deleted is null or lc_deleted is false)");
 
             let response = 'There are: ' + JSON.stringify(rows[0].bikeNullAttributeCount) + ' bike items with null attributes.';
             return (response);

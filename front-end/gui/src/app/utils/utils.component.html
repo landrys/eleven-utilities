@@ -38,7 +38,7 @@
                 </form>
             </mat-card>
         </mat-tab>
-        <mat-tab label="BikeAttributeSyncer">
+        <mat-tab [disabled]="!syncTab"label="BikeAttributeSyncer">
             <form class="example-container" 
                   [formGroup]="form3"
                   (ngSubmit)="submit3(form3.value)">
@@ -48,6 +48,17 @@
                             <mat-radio-button value="count">Item Count With Null Attributes</mat-radio-button>
                             <mat-radio-button value="sync">Sync From LC</mat-radio-button>
                         </mat-radio-group>
+                    </div>
+                    <div [hidden]="isCount()" style="text-align:center;padding-top: 16px;">
+                        <mat-form-field>
+                            <mat-label>Query offset:</mat-label>
+                            <input matInput placeholder="eg. 100" required formControlName="offset">
+                        </mat-form-field>
+                        <br>
+                        <mat-form-field>
+                            <mat-label>Count:</mat-label>
+                            <input matInput placeholder="eg. 2 -> will process 200" required formControlName="count">
+                        </mat-form-field>
                     </div>
                 </mat-card>
                 <mat-card>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 import { environment } from './../../environments/environment';
 import { AmplifyService }  from 'aws-amplify-angular';
+import { MyAuthService } from '../auth/myauth.service';
 
 @Component({
   selector: 'app-utils',
@@ -13,10 +14,13 @@ export class UtilsComponent implements OnInit {
     private form1: FormGroup; private form2: FormGroup;
     private form3: FormGroup;
     private result: string;
+    private syncTab: boolean;
 
-  constructor(public amplifyService: AmplifyService, private fb: FormBuilder){}
+  constructor(public myAuthService: MyAuthService, public amplifyService: AmplifyService, private fb: FormBuilder){}
 
   ngOnInit() {
+
+      this.myAuthService.getSyncTab().subscribe((passedSyncTab) => {this.syncTab = passedSyncTab;});
 
       this.form1 = this.fb.group({
           treeTable: this.fb.control('') // Here you can do things like validating input ( See cost comp. in Bigoooo)
@@ -28,7 +32,9 @@ export class UtilsComponent implements OnInit {
       });
 
       this.form3 = this.fb.group({
-          radioGroup: this.fb.control('count') // Here you can do things like validating input ( See cost comp. in Bigoooo)
+          radioGroup: this.fb.control('count'), // Here you can do things like validating input ( See cost comp. in Bigoooo)
+          offset: this.fb.control(0), // Here you can do things like validating input ( See cost comp. in Bigoooo)
+          count: this.fb.control(1) // Here you can do things like validating input ( See cost comp. in Bigoooo)
       });
 
       this.result='Supply data the press Go to see your result.';
@@ -96,7 +102,9 @@ export class UtilsComponent implements OnInit {
           };
       } else {
           queryStringParameters = {
-              "function": environment.utils.bikeItemAttributeSyncer 
+              "function": environment.utils.bikeItemAttributeSyncer,
+              "offset" : value.offset,
+              "count" : value.count 
           };
       }
 
@@ -118,6 +126,13 @@ export class UtilsComponent implements OnInit {
               this.result = JSON.stringify(error, null, 2);
 
       });
+  }
+
+  isCount() {
+      if ( this.form3.value.radioGroup === 'count' ) 
+          return true;
+      else 
+          return false;
   }
 
 
